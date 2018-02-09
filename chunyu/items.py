@@ -18,8 +18,24 @@ class Hospital(scrapy.Item):
     address = scrapy.Field()
     level = scrapy.Field()
     type = scrapy.Field()
-    phone = scrapy.Field()
-    detail = scrapy.Field()
+    departments = scrapy.Field()
+    url = scrapy.Field()
 
-    pass
 
+class Doctor(scrapy.Item):
+    id = scrapy.Field()
+    name = scrapy.Field()
+    department = scrapy.Field()
+    position = scrapy.Field()
+    hospital_id = scrapy.Field()
+    label = scrapy.Field()
+    background = scrapy.Field()
+    skills = scrapy.Field()
+    skills_detail = scrapy.Field()
+    consult_time = scrapy.Field()
+    consult_price = scrapy.Field()
+    rate = scrapy.Field()
+    recognise = scrapy.Field()
+    patient_heart = scrapy.Field()
+    patient_judge = scrapy.Field()
+    favourable_questions = scrapy.Field()
