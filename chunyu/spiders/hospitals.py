@@ -13,7 +13,7 @@ def get_hospital_id_from_url(url):
 
 class HospitalsSpider(scrapy.Spider):
     name = 'hospitals'
-    allowed_domains = ['`']
+    allowed_domains = ['www.chunyuyisheng.com']
     start_urls = ['https://www.chunyuyisheng.com/pc/hospitals/']
 
     def parse(self, response):
@@ -34,7 +34,7 @@ class HospitalsSpider(scrapy.Spider):
         hospital = Hospital()
         hospital['id'] = get_hospital_id_from_url(response.url)
         hospital['name'] = response.css('h3.title::text').extract_first()
-
+        hospital['province'] = response.css('ul.bread-crumb').css('item')[0].css('a::text').extract_first()
         hospital['city'] = city
         hospital['level'] = response.css('div.content-title').css(".label::text")[0].extract_first()
         hospital['type'] = response.css('div.content-title').css(".label::text")[1].extract_first()
