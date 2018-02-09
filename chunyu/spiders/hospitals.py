@@ -31,6 +31,6 @@ class HospitalsSpider(scrapy.Spider):
     def parse_hospital(self, response):
         hospital = Hospital()
         hospital['id'] = get_hospital_id_from_url(response.url)
-        hospital['name'] = response.css('h3.title::text').extract()[0]
-
+        hospital['name'] = response.css('h3.title::text').extract()
+        hospital['level'] = response.css('div.content-title').css(".label::text")[0].extract()
         return hospital
