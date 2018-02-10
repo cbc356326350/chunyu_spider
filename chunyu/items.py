@@ -19,6 +19,8 @@ class Hospital(scrapy.Item):
     level = scrapy.Field()
     type = scrapy.Field()
     departments = scrapy.Field()
+    description = scrapy.Field()
+    phone = scrapy.Field()
     url = scrapy.Field()
 
 

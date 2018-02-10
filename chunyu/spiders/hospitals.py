@@ -4,11 +4,16 @@ from scrapy import Request
 from ..items import Hospital
 
 
-def get_hospital_id_from_url(url):
-    def not_empty(s):
-        return s and s.strip()
+def item_is_not_empty(c):
+    return c and c.strip()
 
-    return list(filter(not_empty, url.split('/')))[-1]
+
+def filter_empty(c):
+    return list(filter(item_is_not_empty, c))
+
+
+def get_hospital_id_from_url(url):
+    return filter_empty(url.split('/'))[-1]
 
 
 class HospitalsSpider(scrapy.Spider):
@@ -32,7 +37,7 @@ class HospitalsSpider(scrapy.Spider):
             city_url = city.css('.hospital-name::attr(href)').extract_first()
             url = self.chunyu_domain + city_url
             yield Request(url=url, callback=lambda response, city_param=city_name: self.parse_hospital(response,
-                                                                                                            city=city_param))
+                                                                                                       city=city_param))
         pass
 
     def parse_hospital(self, response, city):
@@ -46,4 +51,11 @@ class HospitalsSpider(scrapy.Spider):
         departments = response.css("#clinic").css('a::text').extract()
         hospital['departments'] = list(map(lambda c: c.strip(), departments))
         hospital['url'] = response.url
+        hospital['description'] = self.get_detail(response.css('p.detail')[0].css('::text').extract())
+        hospital['address'] = self.get_detail(response.css('p.detail')[1].css('::text').extract())
+        hospital['phone'] = self.get_detail(response.css('p.detail')[3].css('::text').extract())
         return hospital
+
+    def get_detail(self, des):
+        des = filter_empty(des)
+        return ''.join(str(i) for i in list(map(lambda a: a.strip(), des))[1:])
