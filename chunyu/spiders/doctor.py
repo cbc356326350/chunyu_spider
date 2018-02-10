@@ -6,12 +6,8 @@ from ..items import Doctor
 import pymongo
 
 
-def item_is_not_empty(c):
-    return c and c.strip()
-
-
 def filter_empty(c):
-    return list(filter(item_is_not_empty, c))
+    return list(filter(lambda a: a and a.strip(), c))
 
 
 def get_detail(des):

@@ -4,12 +4,8 @@ from scrapy import Request
 from ..items import Hospital
 
 
-def item_is_not_empty(c):
-    return c and c.strip()
-
-
 def filter_empty(c):
-    return list(filter(item_is_not_empty, c))
+    return list(filter(lambda a: a and a.strip(), c))
 
 
 def get_hospital_id_from_url(url):
