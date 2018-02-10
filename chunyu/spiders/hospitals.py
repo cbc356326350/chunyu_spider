@@ -34,10 +34,11 @@ class HospitalsSpider(scrapy.Spider):
         city_list = response.css('.list')
         for city in city_list:
             city_name = city.css('label::text').extract_first()
-            city_url = city.css('.hospital-name::attr(href)').extract_first()
-            url = self.chunyu_domain + city_url
-            yield Request(url=url, callback=lambda response, city_param=city_name: self.parse_hospital(response,
-                                                                                                       city=city_param))
+            for hospital_li in city.css('li'):
+                city_url = hospital_li.css('.hospital-name::attr(href)').extract_first()
+                url = self.chunyu_domain + city_url
+                yield Request(url=url, callback=lambda response, city_param=city_name: self.parse_hospital(response,
+                                                                                                           city=city_param))
         pass
 
     def parse_hospital(self, response, city):
