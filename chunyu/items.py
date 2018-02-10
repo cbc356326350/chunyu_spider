@@ -26,9 +26,11 @@ class Hospital(scrapy.Item):
 
 class Doctor(scrapy.Item):
     id = scrapy.Field()
+    avatar = scrapy.Field()
     name = scrapy.Field()
     department = scrapy.Field()
     position = scrapy.Field()
+    hospital = scrapy.Field()
     hospital_id = scrapy.Field()
     label = scrapy.Field()
     background = scrapy.Field()
