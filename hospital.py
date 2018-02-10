@@ -1,3 +1,5 @@
 from scrapy import cmdline
+import sys
 
-cmdline.execute("scrapy crawl hospitals".split())
+arg = sys.argv[0]
+cmdline.execute(("scrapy crawl "+arg).split())
